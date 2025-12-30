@@ -92,7 +92,7 @@ Booking Reference: ${reference}
 
 Looking forward to hearing from you!`
 
-        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'
+        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
 
         // Log booking request (we could also save to database here)

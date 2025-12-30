@@ -189,7 +189,7 @@ export default function VillasPage() {
                         Our team can recommend the perfect villa based on your group size, preferences, and travel dates.
                     </p>
                     <Button
-                        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}?text=${encodeURIComponent('Hi! I need help choosing a villa for my stay in Nanyuki.')}`}
+                        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}?text=${encodeURIComponent('Hi! I need help choosing a villa for my stay in Nanyuki.')}`}
                         variant="primary"
                         size="lg"
                     >

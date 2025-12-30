@@ -16,7 +16,7 @@ export default function MobileBookingBar({
     offer,
     bookUrl
 }: MobileBookingBarProps) {
-    const defaultUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}?text=${encodeURIComponent('Hi! I would like to check availability for a villa.')}`
+    const defaultUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}?text=${encodeURIComponent('Hi! I would like to check availability for a villa.')}`
     const finalUrl = bookUrl || defaultUrl
 
     return (

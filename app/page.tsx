@@ -47,7 +47,7 @@ export default function HomePage() {
                 Explore Villas
               </Button>
               <Link
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}`}
+                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}`}
                 target="_blank"
                 className="group flex items-center text-white/90 text-sm font-medium tracking-wide hover:text-safari-sand transition-colors"
               >

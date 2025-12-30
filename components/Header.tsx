@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronRight, Phone, Instagram, Facebook, MapPin } from 'lucide-react'
 import { usePathname } from 'next/navigation'
@@ -69,12 +70,21 @@ export default function Header() {
             <nav className="w-full max-w-[1600px] mx-auto px-6 md:px-10 lg:px-16">
                 <div className="flex items-center justify-between h-20 md:h-24">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2 group z-50 relative">
+                    <Link href="/" className="flex items-center gap-3 group z-50 relative">
+                        <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+                            <Image
+                                src="/logo.png"
+                                alt="Lifestyle Villas Logo"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
                         <div className="flex flex-col">
-                            <span className={`text-xl md:text-2xl font-serif font-bold leading-none tracking-tight ${logoColor} transition-colors duration-500`}>
+                            <span className={`text-lg md:text-xl font-serif font-bold leading-none tracking-tight ${logoColor} transition-colors duration-500`}>
                                 Lifestyle Villas
                             </span>
-                            <span className={`text-[10px] md:text-xs font-sans uppercase tracking-[0.4em] mt-1 ${subLogoColor} transition-all duration-500 group-hover:tracking-[0.5em]`}>
+                            <span className={`text-[9px] md:text-[10px] font-sans uppercase tracking-[0.4em] mt-0.5 ${subLogoColor} transition-all duration-500 group-hover:tracking-[0.5em]`}>
                                 Nanyuki
                             </span>
                         </div>
@@ -97,7 +107,7 @@ export default function Header() {
                     {/* CTA & Mobile Toggle */}
                     <div className="flex items-center gap-6 z-50 relative">
                         <a
-                            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}`}
+                            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`hidden lg:inline-flex items-center px-7 py-3 rounded-full text-[13px] font-medium tracking-wide transition-all duration-500 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]
@@ -160,17 +170,17 @@ export default function Header() {
                             <motion.div variants={itemVariants} className="mt-16 space-y-10">
                                 <div className="space-y-4">
                                     <h4 className="text-[10px] font-sans uppercase tracking-[0.3em] text-safari-olive font-semibold">Contact</h4>
-                                    <a href="tel:+254XXXXXXXX" className="block text-2xl font-light text-safari-night">+254 XXX XXX XXX</a>
+                                    <a href="tel:+254718490351" className="block text-2xl font-light text-safari-night">+254 718 490 351</a>
                                     <a href="mailto:info@lifestylevillas.co.ke" className="block text-lg text-neutral-500 font-light">info@lifestylevillas.co.ke</a>
                                 </div>
 
                                 <div className="space-y-4">
                                     <h4 className="text-[10px] font-sans uppercase tracking-[0.3em] text-safari-olive font-semibold">Follow</h4>
                                     <div className="flex space-x-4">
-                                        <a href="#" className="p-3.5 bg-white rounded-full text-safari-night shadow-sm border border-neutral-100 hover:border-safari-olive transition-colors">
+                                        <a href="https://www.instagram.com/lifestyle_villas_nanyuki?igsh=MXNkb2Nia2ZsbHNpdQ==" target="_blank" rel="noopener noreferrer" className="p-3.5 bg-white rounded-full text-safari-night shadow-sm border border-neutral-100 hover:border-safari-olive transition-colors">
                                             <Instagram className="w-5 h-5" strokeWidth={1.2} />
                                         </a>
-                                        <a href="#" className="p-3.5 bg-white rounded-full text-safari-night shadow-sm border border-neutral-100 hover:border-safari-olive transition-colors">
+                                        <a href="https://www.facebook.com/share/1AKhBKKEu6/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="p-3.5 bg-white rounded-full text-safari-night shadow-sm border border-neutral-100 hover:border-safari-olive transition-colors">
                                             <Facebook className="w-5 h-5" strokeWidth={1.2} />
                                         </a>
                                     </div>

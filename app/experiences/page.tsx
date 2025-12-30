@@ -74,7 +74,7 @@ export default function ExperiencesPage() {
                     <div className="mt-20 text-center">
                         <p className="text-lg text-neutral-600 mb-6">Want to book these experiences?</p>
                         <Button
-                            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}?text=${encodeURIComponent('Hi! I would like to enquire about booking an experience.')}`}
+                            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}?text=${encodeURIComponent('Hi! I would like to enquire about booking an experience.')}`}
                             variant="primary"
                         >
                             Enquire via WhatsApp

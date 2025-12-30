@@ -17,7 +17,7 @@ export default function Footer() {
                         </p>
                         <div className="flex space-x-4">
                             <a
-                                href="https://facebook.com"
+                                href="https://www.facebook.com/share/1AKhBKKEu6/?mibextid=wwXIfr"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-neutral-400 hover:text-safari-olive transition-colors"
@@ -28,7 +28,7 @@ export default function Footer() {
                                 </svg>
                             </a>
                             <a
-                                href="https://instagram.com"
+                                href="https://www.instagram.com/lifestyle_villas_nanyuki?igsh=MXNkb2Nia2ZsbHNpdQ=="
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-neutral-400 hover:text-safari-olive transition-colors"
@@ -69,7 +69,7 @@ export default function Footer() {
                             <li>Nanyuki, Kenya</li>
                             <li>
                                 <a
-                                    href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254XXXXXXXXX'}`}
+                                    href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254718490351'}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="hover:text-neutral-50 transition-colors"

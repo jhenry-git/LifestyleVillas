@@ -139,3 +139,66 @@ ON CONFLICT (slug) DO NOTHING;
 -- Verify data
 SELECT COUNT(*) as villa_count FROM villas;
 SELECT COUNT(*) as admin_count FROM admin_users;
+
+-- ============================================
+-- Google Reviews Integration (Places API Cache)
+-- ============================================
+
+-- Create google_reviews table to cache individual reviews
+CREATE TABLE IF NOT EXISTS google_reviews (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    review_id TEXT UNIQUE NOT NULL,
+    author_name TEXT NOT NULL,
+    author_photo_url TEXT,
+    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    text TEXT,
+    relative_time_description TEXT,
+    time BIGINT,
+    language TEXT DEFAULT 'en',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create google_reviews_meta table for aggregate stats
+CREATE TABLE IF NOT EXISTS google_reviews_meta (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    place_id TEXT UNIQUE NOT NULL,
+    place_name TEXT,
+    overall_rating NUMERIC(2,1),
+    total_reviews INTEGER,
+    last_fetched_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes for google_reviews
+CREATE INDEX IF NOT EXISTS idx_google_reviews_rating ON google_reviews(rating);
+CREATE INDEX IF NOT EXISTS idx_google_reviews_time ON google_reviews(time DESC);
+
+-- Create trigger for google_reviews updated_at
+DROP TRIGGER IF EXISTS update_google_reviews_updated_at ON google_reviews;
+CREATE TRIGGER update_google_reviews_updated_at BEFORE UPDATE ON google_reviews
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Create trigger for google_reviews_meta updated_at
+DROP TRIGGER IF EXISTS update_google_reviews_meta_updated_at ON google_reviews_meta;
+CREATE TRIGGER update_google_reviews_meta_updated_at BEFORE UPDATE ON google_reviews_meta
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Enable Row Level Security (RLS) for google_reviews
+ALTER TABLE google_reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE google_reviews_meta ENABLE ROW LEVEL SECURITY;
+
+-- Allow public read access to reviews
+CREATE POLICY "Allow public read access to google_reviews" ON google_reviews
+    FOR SELECT USING (true);
+
+CREATE POLICY "Allow public read access to google_reviews_meta" ON google_reviews_meta
+    FOR SELECT USING (true);
+
+-- Allow service role full access for syncing
+CREATE POLICY "Allow service role full access to google_reviews" ON google_reviews
+    FOR ALL USING (auth.role() = 'service_role');
+
+CREATE POLICY "Allow service role full access to google_reviews_meta" ON google_reviews_meta
+    FOR ALL USING (auth.role() = 'service_role');
