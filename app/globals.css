@@ -1,26 +1,270 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #FDFBF7;
+  --foreground: #2C2416;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Safari Earth Tone Palette - Kenya Heritage */
+  --safari-sand: #8B7355;
+  --safari-olive: #556B2F;
+  --safari-stone: #A0826D;
+  --safari-earth: #D2B48C;
+  --safari-night: #2C2416;
+
+  /* Accent Colors - Cultural Vibrancy */
+  --accent-maasai: #C1440E;
+  --accent-kenya: #006600;
+
+  /* Neutral Palette */
+  --neutral-50: #FDFBF7;
+  --neutral-100: #F5F1EA;
+  --neutral-200: #E8E1D5;
+  --neutral-300: #D4C9B8;
+  --neutral-400: #B8A894;
+  --neutral-500: #8B7355;
+  --neutral-600: #705C45;
+  --neutral-700: #564636;
+  --neutral-800: #3D3128;
+  --neutral-900: #2C2416;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #2C2416;
+    --foreground: #F5F1EA;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Grain/Noise Texture Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Safari Color Utilities */
+@utility text-safari-sand {
+  color: var(--safari-sand);
+}
+
+@utility text-safari-olive {
+  color: var(--safari-olive);
+}
+
+@utility text-safari-stone {
+  color: var(--safari-stone);
+}
+
+@utility text-safari-earth {
+  color: var(--safari-earth);
+}
+
+@utility text-safari-night {
+  color: var(--safari-night);
+}
+
+@utility bg-safari-sand {
+  background-color: var(--safari-sand);
+}
+
+@utility bg-safari-olive {
+  background-color: var(--safari-olive);
+}
+
+@utility bg-safari-stone {
+  background-color: var(--safari-stone);
+}
+
+@utility bg-safari-earth {
+  background-color: var(--safari-earth);
+}
+
+@utility bg-safari-night {
+  background-color: var(--safari-night);
+}
+
+@utility border-safari-sand {
+  border-color: var(--safari-sand);
+}
+
+@utility border-safari-olive {
+  border-color: var(--safari-olive);
+}
+
+@utility border-safari-stone {
+  border-color: var(--safari-stone);
+}
+
+/* Accent Color Utilities */
+@utility text-accent-maasai {
+  color: var(--accent-maasai);
+}
+
+@utility text-accent-kenya {
+  color: var(--accent-kenya);
+}
+
+@utility bg-accent-maasai {
+  background-color: var(--accent-maasai);
+}
+
+@utility bg-accent-kenya {
+  background-color: var(--accent-kenya);
+}
+
+/* Neutral Utilities */
+@utility text-neutral-50 {
+  color: var(--neutral-50);
+}
+
+@utility text-neutral-100 {
+  color: var(--neutral-100);
+}
+
+@utility text-neutral-200 {
+  color: var(--neutral-200);
+}
+
+@utility text-neutral-300 {
+  color: var(--neutral-300);
+}
+
+@utility text-neutral-400 {
+  color: var(--neutral-400);
+}
+
+@utility text-neutral-500 {
+  color: var(--neutral-500);
+}
+
+@utility text-neutral-600 {
+  color: var(--neutral-600);
+}
+
+@utility text-neutral-700 {
+  color: var(--neutral-700);
+}
+
+@utility text-neutral-800 {
+  color: var(--neutral-800);
+}
+
+@utility text-neutral-900 {
+  color: var(--neutral-900);
+}
+
+@utility bg-neutral-50 {
+  background-color: var(--neutral-50);
+}
+
+@utility bg-neutral-100 {
+  background-color: var(--neutral-100);
+}
+
+@utility bg-neutral-200 {
+  background-color: var(--neutral-200);
+}
+
+@utility bg-neutral-300 {
+  background-color: var(--neutral-300);
+}
+
+@utility bg-neutral-400 {
+  background-color: var(--neutral-400);
+}
+
+@utility bg-neutral-500 {
+  background-color: var(--neutral-500);
+}
+
+@utility bg-neutral-600 {
+  background-color: var(--neutral-600);
+}
+
+@utility bg-neutral-700 {
+  background-color: var(--neutral-700);
+}
+
+@utility bg-neutral-800 {
+  background-color: var(--neutral-800);
+}
+
+@utility bg-neutral-900 {
+  background-color: var(--neutral-900);
+}
+
+@utility border-neutral-200 {
+  border-color: var(--neutral-200);
+}
+
+@utility border-neutral-300 {
+  border-color: var(--neutral-300);
+}
+
+@utility border-neutral-400 {
+  border-color: var(--neutral-400);
+}
+
+/* Premium Utilities */
+@utility font-serif {
+  font-family: 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+@utility container-premium {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Full-width Container for Expansive Sections */
+@utility container-wide {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Safari Gradient Utilities */
+@utility bg-safari-gradient {
+  background: linear-gradient(135deg, var(--safari-olive) 0%, var(--safari-sand) 100%);
+}
+
+@utility bg-safari-gradient-dark {
+  background: linear-gradient(135deg, var(--safari-night) 0%, var(--safari-olive) 100%);
+}
+
+/* Luxe Shadow */
+@utility shadow-luxe {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.03),
+    0 10px 20px -5px rgba(0, 0, 0, 0.04),
+    0 25px 50px -12px rgba(0, 0, 0, 0.06);
+}
+
+/* Premium Easing Utility */
+@utility ease-luxe {
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Safe Area for Mobile Bottom Bar */
+@utility safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
