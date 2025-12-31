@@ -5,7 +5,7 @@ import { MapPin, Sun, Cloud, Wind, CheckCircle } from 'lucide-react'
 import SectionHeader from '@/components/ui/SectionHeader'
 import { nanyukiInfo } from '@/lib/data'
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+const LUXURY_EASE = [0.23, 1, 0.32, 1] as any
 
 export default function NanyukiPage() {
     return (
