@@ -10,6 +10,7 @@ export function createClient() {
 // Allowed admin emails - only these can access the admin panel
 export const ALLOWED_ADMIN_EMAILS = [
     'lifestylevillasbnb@gmail.com',
+    'jhenry@glidexp.com',
     // Add more admin emails here as needed
 ]
 
