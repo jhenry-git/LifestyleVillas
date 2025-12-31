@@ -5,7 +5,7 @@ import SectionHeader from '@/components/ui/SectionHeader'
 import { aboutContent } from '@/lib/data'
 import { Shield, Heart, Star } from 'lucide-react'
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+const LUXURY_EASE = [0.23, 1, 0.32, 1] as any
 
 const icons = {
     Privacy: Shield,
@@ -54,7 +54,7 @@ export default function AboutPage() {
                                 {aboutContent.story}
                             </p>
                             <p className="text-neutral-600 leading-loose text-lg">
-                                Whether you're seeking a quiet writer's retreat, a base for your mountaineering adventure, or a luxurious family holiday, Lifestyle Villas is designed to be your private sanctuary.
+                                Whether you're seeking a quiet writer's retreat, a base for your mountaineering adventure, or a luxurious family holiday, Lifestyle Villas is designed to be your pr[...]
                             </p>
                         </div>
                     </div>
