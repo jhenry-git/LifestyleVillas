@@ -4,13 +4,15 @@ import { supabase } from '@/lib/supabase/client'
 // GET /api/admin/villas/[id] - Get a single villa
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await context.params
+
         const { data, error } = await supabase
             .from('villas')
             .select('*')
-            .eq('id', params.id)
+            .eq('id', id)
             .single()
 
         if (error) {
@@ -34,9 +36,10 @@ export async function GET(
 // PUT /api/admin/villas/[id] - Update a villa
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await context.params
         const body = await request.json()
 
         const { data, error } = await supabase
@@ -59,7 +62,7 @@ export async function PUT(
                 ...(body.status && { status: body.status }),
                 ...(body.featured !== undefined && { featured: body.featured }),
             })
-            .eq('id', params.id)
+            .eq('id', id)
             .select()
             .single()
 
@@ -84,13 +87,15 @@ export async function PUT(
 // DELETE /api/admin/villas/[id] - Delete a villa
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
+        const { id } = await context.params
+
         const { error } = await supabase
             .from('villas')
             .delete()
-            .eq('id', params.id)
+            .eq('id', id)
 
         if (error) {
             console.error('Supabase error:', error)
