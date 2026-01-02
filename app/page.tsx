@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Mountain, Compass, Sparkles } from 'lucide-react'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import { villas, reviews } from '@/lib/data'
 import VillaCard from '@/components/ui/VillaCard'
@@ -17,8 +18,14 @@ export default function HomePage() {
       <section className="relative h-[100dvh] min-h-[700px] flex items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-safari-night z-0">
+          <Image
+            src="/images/PHOTO-2025-11-11-09-04-06.jpg"
+            alt="Mount Kenya Luxury Villa"
+            fill
+            className="object-cover opacity-80"
+            priority
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-safari-night/30 via-transparent to-background z-10" />
-          <div className="absolute inset-0 bg-[url('/hero-placeholder.jpg')] bg-cover bg-center opacity-70" />
         </div>
 
         {/* Hero Content */}
@@ -132,7 +139,7 @@ export default function HomePage() {
 
       {/* Reviews Section */}
       <section className="py-32 md:py-40 bg-safari-night relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 bg-[url('/pattern-noise.png')]" />
+        <div className="absolute inset-0 opacity-5" />
         <div className="container-premium relative z-10">
           <SectionHeader
             title="Guest Stories"

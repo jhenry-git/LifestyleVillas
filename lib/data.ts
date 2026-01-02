@@ -56,6 +56,7 @@ export const villas = [
         bedrooms: 3,
         bathrooms: 2,
         amenities: ['WiFi', 'Kitchen', 'Mountain View', 'Garden', 'Parking', 'Smart TV'],
+        image: '/images/villas/safari-vista.png',
         featured: true,
         offers: [{ tag: 'Featured' }],
         details: {
@@ -100,6 +101,7 @@ export const villas = [
         bedrooms: 2,
         bathrooms: 2,
         amenities: ['WiFi', 'Kitchen', 'Garden', 'Parking', 'Veranda'],
+        image: '/images/villas/nanyuki-retreat.png',
         featured: true,
         offers: [{ tag: 'Stay 3 Pay 2' }],
         details: {
@@ -138,6 +140,7 @@ export const villas = [
         bedrooms: 4,
         bathrooms: 3,
         amenities: ['WiFi', 'Kitchen', 'Fireplace', 'BBQ Area', 'Mountain View', 'Parking'],
+        image: '/images/villas/mount-kenya-lodge.png',
         featured: false,
         offers: [],
         details: {

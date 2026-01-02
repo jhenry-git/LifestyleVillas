@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Users } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
 
 interface VillaCardProps {
@@ -18,6 +19,7 @@ interface VillaCardProps {
         amenities: string[]
         offers: { tag: string }[]
         featured: boolean
+        image?: string
     }
     index?: number
 }
@@ -37,8 +39,20 @@ export default function VillaCard({ villa, index = 0 }: VillaCardProps) {
             <div className="relative h-80 bg-neutral-200 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-safari-night/50 via-transparent to-transparent z-10" />
 
-                {/* Placeholder Image - Apply Slow Zoom */}
-                <div className="absolute inset-0 bg-neutral-300 w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out" />
+                {/* Image - Apply Slow Zoom */}
+                {villa.image ? (
+                    <div className="absolute inset-0 w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out">
+                        <Image
+                            src={villa.image}
+                            alt={villa.name}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                    </div>
+                ) : (
+                    <div className="absolute inset-0 bg-neutral-300 w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out" />
+                )}
 
                 {/* Offer Tags */}
                 {villa.offers && villa.offers.length > 0 && (
