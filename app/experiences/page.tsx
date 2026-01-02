@@ -5,8 +5,7 @@ import { MapPin, Clock, ArrowRight } from 'lucide-react'
 import SectionHeader from '@/components/ui/SectionHeader'
 import Button from '@/components/ui/Button'
 import { experiences } from '@/lib/data'
-
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function ExperiencesPage() {
     return (
