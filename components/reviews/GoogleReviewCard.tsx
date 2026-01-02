@@ -17,7 +17,7 @@ interface GoogleReviewCardProps {
     index?: number
 }
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1] as const
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function GoogleReviewCard({ review, index = 0 }: GoogleReviewCardProps) {
     const [isExpanded, setIsExpanded] = useState(false)

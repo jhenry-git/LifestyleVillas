@@ -8,8 +8,7 @@ import { villas, reviews } from '@/lib/data'
 import VillaCard from '@/components/ui/VillaCard'
 import ReviewCard from '@/components/ui/ReviewCard'
 import SectionHeader from '@/components/ui/SectionHeader'
-
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function HomePage() {
   return (

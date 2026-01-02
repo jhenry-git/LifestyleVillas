@@ -1,64 +1,47 @@
+import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
 
-const GOOGLE_PLACE_ID = 'ChIJ6SeH2hEdKBgRfE-OEHIf4ZA'
-
-// Create a read-only Supabase client
-function getSupabase() {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Missing Supabase environment variables')
-    }
-
-    return createClient(supabaseUrl, supabaseAnonKey)
-}
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
     try {
-        const supabase = getSupabase()
+        const cookieStore = cookies()
+        const supabase = createClient(cookieStore)
 
-        // Fetch aggregate meta
-        const { data: meta, error: metaError } = await supabase
+        // Fetch metadata
+        const { data: metaData, error: metaError } = await supabase
             .from('google_reviews_meta')
             .select('*')
-            .eq('place_id', GOOGLE_PLACE_ID)
+            .eq('place_id', 'ChIJ6SeH2hEdKBgRfE-OEHIf4ZA')
             .single()
 
-        if (metaError && metaError.code !== 'PGRST116') {
+        if (metaError && metaError.code !== 'PGRST116') { // Ignore 'PGRST116' (No rows found)
             console.error('Error fetching meta:', metaError)
         }
 
-        // Fetch all cached reviews, ordered by time descending
-        const { data: reviews, error: reviewsError } = await supabase
+        // Fetch reviews, ordered by most recent
+        const { data: reviewsData, error: reviewsError } = await supabase
             .from('google_reviews')
             .select('*')
             .order('time', { ascending: false })
 
         if (reviewsError) {
             console.error('Error fetching reviews:', reviewsError)
-            return NextResponse.json(
-                { error: 'Failed to fetch reviews' },
-                { status: 500 }
-            )
+            return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 })
         }
 
         return NextResponse.json({
             meta: {
-                placeName: meta?.place_name || 'Lifestyle Villas Nanyuki',
-                overallRating: meta?.overall_rating || null,
-                totalReviews: meta?.total_reviews || 0,
-                lastFetched: meta?.last_fetched_at || null
+                placeName: metaData?.place_name || 'Lifestyle Villas Nanyuki',
+                overallRating: metaData?.overall_rating || null,
+                totalReviews: metaData?.total_reviews || 0,
+                lastFetched: metaData?.last_fetched_at || null,
             },
-            reviews: reviews || []
+            reviews: reviewsData || [],
         })
-
-    } catch (error) {
-        console.error('Reviews fetch error:', error)
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        )
+    } catch (e) {
+        console.error('Reviews fetch error:', e)
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
 }

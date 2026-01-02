@@ -4,8 +4,7 @@ import { motion } from 'framer-motion'
 import SectionHeader from '@/components/ui/SectionHeader'
 import { aboutContent } from '@/lib/data'
 import { Shield, Heart, Star } from 'lucide-react'
-
-const LUXURY_EASE = [0.23, 1, 0.32, 1] as any
+import { LUXURY_EASE } from '@/lib/constants'
 
 const icons = {
     Privacy: Shield,

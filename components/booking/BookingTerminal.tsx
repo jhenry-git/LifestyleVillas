@@ -138,7 +138,7 @@ Looking forward to hearing from you!`
                         </label>
                         <DatePicker
                             selected={checkIn}
-                            onChange={(date) => setCheckIn(date)}
+                            onChange={(date: Date | null) => setCheckIn(date)}
                             minDate={today}
                             className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-safari-olive focus:border-transparent"
                             placeholderText="Select date"
@@ -151,7 +151,7 @@ Looking forward to hearing from you!`
                         </label>
                         <DatePicker
                             selected={checkOut}
-                            onChange={(date) => setCheckOut(date)}
+                            onChange={(date: Date | null) => setCheckOut(date)}
                             minDate={checkIn || tomorrow}
                             className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-safari-olive focus:border-transparent"
                             placeholderText="Select date"

@@ -11,7 +11,7 @@ interface SectionHeaderProps {
     light?: boolean
 }
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function SectionHeader({
     title,

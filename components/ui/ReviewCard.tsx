@@ -12,7 +12,7 @@ interface ReviewCardProps {
     index?: number
 }
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function ReviewCard({ review, index = 0 }: ReviewCardProps) {
     return (
