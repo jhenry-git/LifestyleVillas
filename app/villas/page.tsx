@@ -7,47 +7,38 @@ export const metadata: Metadata = {
     description: 'Explore our collection of premium villas in Nanyuki. Each villa offers stunning views of Mount Kenya and world-class amenities.',
 }
 
-// This would normally come from Supabase
-const villas = [
-    {
-        id: '1',
-        houseNumber: 'Villa 01',
-        name: 'Safari Vista',
-        slug: 'villa-01-safari-vista',
-        description: 'A luxurious 3-bedroom villa with panoramic views of Mount Kenya',
-        basePrice: 15000,
-        capacity: 6,
-        amenities: ['WiFi', 'Kitchen', 'Mountain View', 'Garden', 'Parking'],
-        featured: true,
-        offers: [{ tag: 'Featured' }]
-    },
-    {
-        id: '2',
-        houseNumber: 'Villa 02',
-        name: 'Nanyuki Retreat',
-        slug: 'villa-02-nanyuki-retreat',
-        description: 'Serene 2-bedroom villa perfect for couples and small families',
-        basePrice: 12000,
-        capacity: 4,
-        amenities: ['WiFi', 'Kitchen', 'Pool Access', 'Garden', 'Parking'],
-        featured: true,
-        offers: [{ tag: 'Stay 3 Pay 2' }]
-    },
-    {
-        id: '3',
-        houseNumber: 'Villa 03',
-        name: 'Mount Kenya Lodge',
-        slug: 'villa-03-mount-kenya-lodge',
-        description: 'Spacious 4-bedroom villa ideal for group getaways',
-        basePrice: 20000,
-        capacity: 8,
-        amenities: ['WiFi', 'Kitchen', 'Fireplace', 'BBQ Area', 'Mountain View', 'Parking'],
-        featured: false,
-        offers: []
-    },
-]
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 
-export default function VillasPage() {
+async function getVillas() {
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore)
+
+    const { data: villas } = await supabase
+        .from('villas')
+        .select('*')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+
+    if (!villas) return []
+
+    return villas.map(villa => ({
+        id: villa.id,
+        houseNumber: villa.name, // Using name as house number for now
+        name: villa.name,
+        slug: villa.slug,
+        description: villa.description || '',
+        basePrice: villa.price_per_night,
+        capacity: villa.max_guests,
+        amenities: (villa.amenities as string[]) || [], // Type assertion for JSONB
+        featured: villa.featured || false,
+        offers: [] as { tag: string }[], // No offers table yet
+        image: villa.featured_image || (villa.images && villa.images[0]) || null
+    }))
+}
+
+export default async function VillasPage() {
+    const villas = await getVillas()
     return (
         <div className="bg-background">
             {/* Header */}
