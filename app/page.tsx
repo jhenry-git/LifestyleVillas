@@ -43,7 +43,13 @@ function mapVillas(villas: any[]) {
     amenities: (villa.amenities as string[]) || [],
     featured: villa.featured || false,
     offers: [],
-    image: villa.featured_image || (villa.images && villa.images[0]) || null
+    image: villa.featured_image || (
+      Array.isArray(villa.images) && villa.images.length > 0
+        ? (typeof villa.images[0] === 'string'
+          ? villa.images[0]
+          : (villa.images as any)[0]?.images?.[0])
+        : null
+    )
   }))
 }
 

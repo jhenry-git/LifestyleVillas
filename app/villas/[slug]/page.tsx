@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import BookingTerminal from '@/components/booking/BookingTerminal'
+import VillaGallery from '@/components/ui/VillaGallery'
 
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
@@ -130,35 +131,12 @@ export default async function VillaPage({ params }: { params: Promise<{ slug: st
                     </div>
 
                     {/* Image Gallery */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                        {/* ... (images remain same) ... */}
-                        {/* Main Image */}
-                        <div className="md:row-span-2 relative h-96 md:h-full bg-neutral-200 dark:bg-neutral-800 rounded-2xl overflow-hidden group">
-                            {villa.featured_image ? (
-                                <Image
-                                    src={villa.featured_image}
-                                    alt={villa.name}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                            ) : (
-                                <div className="absolute inset-0 flex items-center justify-center bg-neutral-200 dark:bg-neutral-800">
-                                    <span className="text-neutral-400">No Featured Image</span>
-                                </div>
-                            )}
-                        </div>
-                        {/* Secondary Images - Display up to 4 additional images */}
-                        {villa.images.filter(img => img !== villa.featured_image).slice(0, 4).map((img, i) => (
-                            <div key={i} className="relative h-48 bg-neutral-200 dark:bg-neutral-800 rounded-xl overflow-hidden group">
-                                <Image
-                                    src={img}
-                                    alt={`${villa.name} - view ${i + 1}`}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    {/* Image Gallery */}
+                    <VillaGallery
+                        images={villa.images}
+                        featuredImage={villa.featured_image}
+                        name={villa.name}
+                    />
 
                     {/* Content Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">

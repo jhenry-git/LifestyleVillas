@@ -33,7 +33,13 @@ async function getVillas() {
         amenities: (villa.amenities as string[]) || [], // Type assertion for JSONB
         featured: villa.featured || false,
         offers: [] as { tag: string }[], // No offers table yet
-        image: villa.featured_image || (villa.images && villa.images[0]) || null
+        image: villa.featured_image || (
+            Array.isArray(villa.images) && villa.images.length > 0
+                ? (typeof villa.images[0] === 'string'
+                    ? villa.images[0]
+                    : (villa.images as any)[0]?.images?.[0])
+                : null
+        )
     }))
 }
 

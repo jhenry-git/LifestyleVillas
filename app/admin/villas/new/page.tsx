@@ -23,11 +23,15 @@ interface VillaFormData {
     amenities: string
 }
 
+const SECTIONS = ['Living Room', 'Bedrooms', 'Kitchen', 'Bathrooms', 'Verandah', 'Exterior']
+
 export default function NewVillaPage() {
     const router = useRouter()
-    const [images, setImages] = useState<string[]>([])
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [featuredImage, setFeaturedImage] = useState<string | null>(null)
+    // Store images mapped by section
+    const [sectionImages, setSectionImages] = useState<Record<string, string[]>>({})
 
     const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<VillaFormData>({
         defaultValues: {
@@ -48,6 +52,13 @@ export default function NewVillaPage() {
         setValue('slug', slug)
     }
 
+    const handleSectionImagesChange = (section: string, newImages: string[]) => {
+        setSectionImages(prev => ({
+            ...prev,
+            [section]: newImages
+        }))
+    }
+
     const onSubmit = async (data: VillaFormData) => {
         try {
             setSubmitting(true)
@@ -62,10 +73,19 @@ export default function NewVillaPage() {
                 ? data.highlights.split('\n').map(i => i.trim()).filter(Boolean)
                 : []
 
+            // Transform sectionImages map into an array of objects for storage
+            // Structure: [{ category: 'Living Room', images: ['url1', 'url2'] }, ...]
+            const structuredImages = Object.entries(sectionImages)
+                .filter(([_, imgs]) => imgs.length > 0)
+                .map(([category, imgs]) => ({
+                    category,
+                    images: imgs
+                }))
+
             const payload = {
                 ...data,
-                images,
-                featured_image: images[0] || null, // First image is featured
+                images: structuredImages,
+                featured_image: featuredImage,
                 amenities: amenitiesArray,
                 highlights: highlightsArray,
                 bedrooms: Number(data.bedrooms),
@@ -219,17 +239,37 @@ export default function NewVillaPage() {
                     </div>
                 </div>
 
-                {/* Images */}
+                {/* Images Section */}
                 <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-                    <h2 className="text-lg font-bold text-safari-night mb-4">Images</h2>
-                    <p className="text-sm text-neutral-500 mb-4">
-                        Upload high-quality images of the villa. The first image will be used as the featured image.
-                    </p>
-                    <ImageUploader
-                        images={images}
-                        onImagesChange={setImages}
-                        maxImages={10}
-                    />
+                    <h2 className="text-lg font-bold text-safari-night mb-4">Gallery & Media</h2>
+
+                    {/* Featured Image */}
+                    <div className="mb-8">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">Featured Image (Cover)</label>
+                        <p className="text-sm text-neutral-500 mb-4">This will be the main image shown on listing cards.</p>
+                        <div className="max-w-md">
+                            <ImageUploader
+                                images={featuredImage ? [featuredImage] : []}
+                                onImagesChange={(imgs) => setFeaturedImage(imgs[0] || null)}
+                                maxImages={1}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Sectional Uploads */}
+                    <div className="space-y-8">
+                        <h3 className="text-md font-bold text-neutral-900 border-b pb-2">Room Categories</h3>
+
+                        {SECTIONS.map((section) => (
+                            <div key={section}>
+                                <label className="block text-sm font-medium text-safari-olive mb-2">{section}</label>
+                                <ImageUploader
+                                    images={sectionImages[section] || []}
+                                    onImagesChange={(imgs) => handleSectionImagesChange(section, imgs)}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Features */}
@@ -285,6 +325,8 @@ export default function NewVillaPage() {
                                     type="checkbox"
                                     {...register('featured')}
                                     className="w-5 h-5 text-safari-olive rounded focus:ring-safari-olive border-gray-300"
+                                    checked={watch('featured')}
+                                    onChange={(e) => setValue('featured', e.target.checked)}
                                 />
                                 <span className="ml-2 text-sm font-medium text-neutral-700">Mark as Featured Villa</span>
                             </label>
@@ -293,7 +335,7 @@ export default function NewVillaPage() {
                 </div>
 
                 {/* Submit */}
-                <div className="flex justify-end gap-3 sticky bottom-6 bg-white/80 p-4 backdrop-blur-md rounded-lg shadow-lg border border-white/20">
+                <div className="flex justify-end gap-3 sticky bottom-6 bg-white/80 p-4 backdrop-blur-md rounded-lg shadow-lg border border-white/20 z-40">
                     <Link
                         href="/admin/villas"
                         className="px-6 py-2 border border-neutral-300 rounded-lg text-neutral-700 font-medium hover:bg-neutral-50 transition-colors"
