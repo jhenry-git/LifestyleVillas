@@ -22,7 +22,7 @@ interface VillaCardProps {
     index?: number
 }
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function VillaCard({ villa, index = 0 }: VillaCardProps) {
     return (

@@ -9,6 +9,7 @@ import GoogleReviewCard from '@/components/reviews/GoogleReviewCard'
 import AggregateRating from '@/components/reviews/AggregateRating'
 import Button from '@/components/ui/Button'
 import { reviews as fallbackReviews } from '@/lib/data'
+import { LUXURY_EASE } from '@/lib/constants'
 
 interface GoogleReview {
     id: string
@@ -29,8 +30,6 @@ interface ReviewsMeta {
 }
 
 const GOOGLE_MAPS_REVIEW_URL = 'https://www.google.com/travel/hotels/entity/ChoI_J65hKHux_CQARoNL2cvMTFtdGpzdnh3ORAB?q=lifestyle%20villas&g2lb=4965990%2C72317059%2C72414906%2C72471280%2C72485658%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C72958624%2C73059275%2C73064764%2C73101823%2C73104949%2C73107089%2C73125226%2C73169520%2C73192290%2C73198316%2C73219140&hl=en-KE&gl=ke&cs=1&ssta=1&ts=CAEaSQorEicyJTB4MTgyODFkMTFkYTg3MjdlOToweDkwZTExZjcyMTA4ZTRmN2MaABIaEhQKBwjqDxABGAQSBwjqDxABGAUYATICEAAqCQoFOgNLRVMaAA&qs=CAE4AkIJCXxPjhByH-GQQgkJfE-OEHIf4ZA&ictx=111&ved=0CAAQ5JsGahcKEwjQqu6nn-aRAxUAAAAAHQAAAAAQBA&utm_campaign=sharing&utm_medium=link&utm_source=htls'
-
-const LUXURY_EASE = [0.23, 1, 0.32, 1] as const
 
 export default function ReviewsPage() {
     const [googleReviews, setGoogleReviews] = useState<GoogleReview[]>([])

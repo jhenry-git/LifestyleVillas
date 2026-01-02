@@ -9,7 +9,7 @@ interface MobileBookingBarProps {
     bookUrl?: string
 }
 
-const LUXURY_EASE = [0.23, 1, 0.32, 1]
+import { LUXURY_EASE } from '@/lib/constants'
 
 export default function MobileBookingBar({
     price = 12000,
