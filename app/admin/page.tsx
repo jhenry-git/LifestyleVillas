@@ -1,21 +1,127 @@
 'use client'
 
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
-const stats = [
-    { name: 'Total Villas', value: '3', change: '+1', icon: '🏠', color: 'bg-safari-olive' },
-    { name: 'Active Bookings', value: '12', change: '+3', icon: '📅', color: 'bg-accent-maasai' },
-    { name: 'This Month Revenue', value: 'KES 450K', change: '+12%', icon: '💰', color: 'bg-accent-kenya' },
-    { name: 'Pending Inquiries', value: '5', change: '+2', icon: '💬', color: 'bg-safari-stone' },
-]
+interface Stats {
+    totalVillas: number
+    activeBookings: number
+    monthRevenue: number
+    pendingInquiries: number
+}
 
-const recentBookings = [
-    { id: 1, guest: 'Sarah Johnson', villa: 'Villa 01', checkIn: '2025-01-15', status: 'confirmed' },
-    { id: 2, guest: 'David Martinez', villa: 'Villa 02', checkIn: '2025-01-20', status: 'pending' },
-    { id: 3, guest: 'Emma Wilson', villa: 'Villa 03', checkIn: '2025-01-25', status: 'confirmed' },
-]
+interface Booking {
+    id: string
+    guest_name: string
+    villa_id: string
+    check_in: string
+    status: string
+}
+
+interface Villa {
+    id: string
+    name: string
+}
 
 export default function AdminDashboard() {
+    const [stats, setStats] = useState<Stats>({
+        totalVillas: 0,
+        activeBookings: 0,
+        monthRevenue: 0,
+        pendingInquiries: 0
+    })
+    const [recentBookings, setRecentBookings] = useState<Booking[]>([])
+    const [villas, setVillas] = useState<Record<string, Villa>>({})
+    const [loading, setLoading] = useState(true)
+
+    const supabase = createClient()
+
+    useEffect(() => {
+        async function fetchDashboardData() {
+            try {
+                setLoading(true)
+
+                // Fetch total villas
+                const { count: villasCount } = await supabase
+                    .from('villas')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('status', 'published')
+
+                // Fetch active bookings (confirmed or pending)
+                const { count: bookingsCount } = await supabase
+                    .from('bookings')
+                    .select('*', { count: 'exact', head: true })
+                    .in('status', ['confirmed', 'pending'])
+
+                // Fetch this month's revenue
+                const firstDayOfMonth = new Date()
+                firstDayOfMonth.setDate(1)
+                firstDayOfMonth.setHours(0, 0, 0, 0)
+
+                const { data: monthBookings } = await supabase
+                    .from('bookings')
+                    .select('total_price')
+                    .gte('created_at', firstDayOfMonth.toISOString())
+                    .in('status', ['confirmed', 'completed'])
+
+                const monthRevenue = monthBookings?.reduce((sum, b) => sum + Number(b.total_price), 0) || 0
+
+                // Fetch pending inquiries
+                const { count: pendingCount } = await supabase
+                    .from('bookings')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('status', 'pending')
+
+                setStats({
+                    totalVillas: villasCount || 0,
+                    activeBookings: bookingsCount || 0,
+                    monthRevenue: monthRevenue,
+                    pendingInquiries: pendingCount || 0
+                })
+
+                // Fetch recent bookings
+                const { data: bookingsData } = await supabase
+                    .from('bookings')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(3)
+
+                setRecentBookings(bookingsData || [])
+
+                // Fetch villa names
+                if (bookingsData && bookingsData.length > 0) {
+                    const villaIds = [...new Set(bookingsData.map(b => b.villa_id))]
+                    const { data: villasData } = await supabase
+                        .from('villas')
+                        .select('id, name')
+                        .in('id', villaIds)
+
+                    if (villasData) {
+                        const villasMap: Record<string, Villa> = {}
+                        villasData.forEach(v => {
+                            villasMap[v.id] = v
+                        })
+                        setVillas(villasMap)
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchDashboardData()
+    }, [supabase])
+
+    const statsDisplay = [
+        { name: 'Total Villas', value: loading ? '...' : stats.totalVillas.toString(), change: '', icon: '🏠', color: 'bg-safari-olive' },
+        { name: 'Active Bookings', value: loading ? '...' : stats.activeBookings.toString(), change: '', icon: '📅', color: 'bg-accent-maasai' },
+        { name: 'This Month Revenue', value: loading ? '...' : `KES ${(stats.monthRevenue / 1000).toFixed(0)}K`, change: '', icon: '💰', color: 'bg-accent-kenya' },
+        { name: 'Pending Inquiries', value: loading ? '...' : stats.pendingInquiries.toString(), change: '', icon: '💬', color: 'bg-safari-stone' },
+    ]
+
     return (
         <div className="space-y-6">
             {/* Welcome */}
@@ -26,15 +132,17 @@ export default function AdminDashboard() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat) => (
+                {statsDisplay.map((stat) => (
                     <div key={stat.name} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
                         <div className="flex items-center justify-between">
                             <div className={`p-3 rounded-lg ${stat.color} text-white text-2xl`}>
                                 {stat.icon}
                             </div>
-                            <span className="text-accent-kenya text-sm font-medium">
-                                {stat.change}
-                            </span>
+                            {stat.change && (
+                                <span className="text-accent-kenya text-sm font-medium">
+                                    {stat.change}
+                                </span>
+                            )}
                         </div>
                         <h3 className="mt-4 text-2xl font-bold text-safari-night">{stat.value}</h3>
                         <p className="text-sm text-neutral-600">{stat.name}</p>
@@ -75,68 +183,81 @@ export default function AdminDashboard() {
                 <div className="px-6 py-4 border-b border-neutral-200">
                     <h2 className="text-xl font-bold text-safari-night">Recent Bookings</h2>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-neutral-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                                    Guest
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                                    Villa
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                                    Check-in
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-neutral-200">
-                            {recentBookings.map((booking) => (
-                                <tr key={booking.id} className="hover:bg-neutral-50">
-                                    <td className="px-6 py-4 text-sm font-medium text-safari-night">
-                                        {booking.guest}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-neutral-600">
-                                        {booking.villa}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-neutral-600">
-                                        {new Date(booking.checkIn).toLocaleDateString()}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${booking.status === 'confirmed'
-                                            ? 'bg-accent-kenya/10 text-accent-kenya'
-                                            : 'bg-accent-maasai/10 text-accent-maasai'
-                                            }`}>
-                                            {booking.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <Link
-                                            href={`/admin/bookings/${booking.id}`}
-                                            className="text-safari-olive hover:text-safari-sand font-medium"
-                                        >
-                                            View →
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="px-6 py-4 border-t border-neutral-200">
-                    <Link
-                        href="/admin/bookings"
-                        className="text-safari-olive hover:text-safari-sand font-medium text-sm"
-                    >
-                        View all bookings →
-                    </Link>
-                </div>
+                {loading ? (
+                    <div className="p-12 text-center">
+                        <div className="w-12 h-12 border-4 border-safari-olive border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-neutral-600">Loading bookings...</p>
+                    </div>
+                ) : recentBookings.length === 0 ? (
+                    <div className="p-12 text-center text-neutral-500">
+                        No bookings yet. Start receiving reservations!
+                    </div>
+                ) : (
+                    <>
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-neutral-50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                                            Guest
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                                            Villa
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                                            Check-in
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                                            Status
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-neutral-200">
+                                    {recentBookings.map((booking) => (
+                                        <tr key={booking.id} className="hover:bg-neutral-50">
+                                            <td className="px-6 py-4 text-sm font-medium text-safari-night">
+                                                {booking.guest_name}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-neutral-600">
+                                                {villas[booking.villa_id]?.name || 'Unknown Villa'}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-neutral-600">
+                                                {new Date(booking.check_in).toLocaleDateString('en-US')}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${booking.status === 'confirmed'
+                                                    ? 'bg-accent-kenya/10 text-accent-kenya'
+                                                    : 'bg-accent-maasai/10 text-accent-maasai'
+                                                    }`}>
+                                                    {booking.status}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-sm">
+                                                <Link
+                                                    href={`/admin/bookings/${booking.id}`}
+                                                    className="text-safari-olive hover:text-safari-sand font-medium"
+                                                >
+                                                    View →
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="px-6 py-4 border-t border-neutral-200">
+                            <Link
+                                href="/admin/bookings"
+                                className="text-safari-olive hover:text-safari-sand font-medium text-sm"
+                            >
+                                View all bookings →
+                            </Link>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )

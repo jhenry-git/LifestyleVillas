@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { MapPin, Clock, ArrowRight } from 'lucide-react'
 import SectionHeader from '@/components/ui/SectionHeader'
 import Button from '@/components/ui/Button'
@@ -38,9 +39,15 @@ export default function ExperiencesPage() {
                                 viewport={{ once: true }}
                                 className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-neutral-100"
                             >
-                                {/* Image Placeholder */}
+                                {/* Image */}
                                 <div className="h-64 bg-neutral-200 relative overflow-hidden">
-                                    {/* This would be next/image in production */}
+                                    <Image
+                                        src={`/images/experiences/${exp.image.split('/').pop()}`}
+                                        alt={exp.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                    />
                                     <div className="absolute inset-0 bg-safari-olive/10 group-hover:bg-transparent transition-colors duration-500" />
                                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-safari-olive">
                                         {exp.category}

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { MapPin, Sun, Cloud, Wind, CheckCircle } from 'lucide-react'
 import SectionHeader from '@/components/ui/SectionHeader'
 import { nanyukiInfo } from '@/lib/data'
@@ -42,19 +43,25 @@ export default function NanyukiPage() {
                             </div>
                         </motion.div>
                         <div className="h-96 bg-neutral-200 rounded-2xl relative overflow-hidden shadow-2xl">
-                            {/* Map or Landscape Placeholder */}
-                            <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-serif">
-                                Scenic Landscape Image
-                            </div>
+                            <Image
+                                src="/nanyuki-landscape.jpg"
+                                alt="Nanyuki Scenic Landscape"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                            />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
                         <div className="h-96 bg-neutral-200 rounded-2xl relative overflow-hidden shadow-2xl order-2 lg:order-1">
-                            {/* Climate Placeholder */}
-                            <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-serif">
-                                Mount Kenya Image
-                            </div>
+                            <Image
+                                src="/mount-kenya-view.jpg"
+                                alt="Mount Kenya View"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                            />
                         </div>
                         <motion.div
                             initial={{ opacity: 0, x: 30 }}

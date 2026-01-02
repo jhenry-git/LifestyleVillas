@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import SectionHeader from '@/components/ui/SectionHeader'
 import { aboutContent } from '@/lib/data'
 import { Shield, Heart, Star } from 'lucide-react'
@@ -40,10 +41,13 @@ export default function AboutPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-32">
                         <div className="relative">
                             <div className="aspect-[4/5] bg-neutral-200 rounded-lg overflow-hidden relative z-10">
-                                {/* Concept Image */}
-                                <div className="absolute inset-0 bg-neutral-300 flex items-center justify-center text-neutral-500">
-                                    Founder / Team Image
-                                </div>
+                                <Image
+                                    src="/team-photo.jpg"
+                                    alt="Lifestyle Villas Team"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                />
                             </div>
                             <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-safari-olive rounded-lg z-0" />
                         </div>
