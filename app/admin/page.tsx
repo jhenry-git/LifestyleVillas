@@ -21,7 +21,7 @@ export default function AdminDashboard() {
             {/* Welcome */}
             <div>
                 <h1 className="text-3xl font-bold text-safari-night">Welcome back!</h1>
-                <p className="text-neutral-600 mt-1">Here's what's happening with your villas today.</p>
+                <p className="text-neutral-600 mt-1">Here&apos;s what&apos;s happening with your villas today.</p>
             </div>
 
             {/* Stats Grid */}
@@ -110,8 +110,8 @@ export default function AdminDashboard() {
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${booking.status === 'confirmed'
-                                                ? 'bg-accent-kenya/10 text-accent-kenya'
-                                                : 'bg-accent-maasai/10 text-accent-maasai'
+                                            ? 'bg-accent-kenya/10 text-accent-kenya'
+                                            : 'bg-accent-maasai/10 text-accent-maasai'
                                             }`}>
                                             {booking.status}
                                         </span>

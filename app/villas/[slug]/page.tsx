@@ -77,7 +77,7 @@ export default async function VillaPage({ params }: { params: Promise<{ slug: st
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="font-serif text-4xl font-bold mb-4 text-safari-night">Villa Not Found</h1>
-                    <p className="text-neutral-600 mb-8">Sorry, we couldn't find the villa you're looking for.</p>
+                    <p className="text-neutral-600 mb-8">Sorry, we couldn&apos;t find the villa you&apos;re looking for.</p>
                     <Link href="/villas" className="text-safari-olive hover:text-safari-sand font-medium">
                         ← Back to all villas
                     </Link>
@@ -241,7 +241,7 @@ export default async function VillaPage({ params }: { params: Promise<{ slug: st
                                                 </div>
                                                 <span className="text-xs text-safari-olive font-medium">Verified Google Review</span>
                                             </div>
-                                            <p className="text-neutral-700 italic mb-2">"{review.text}"</p>
+                                            <p className="text-neutral-700 italic mb-2">&quot;{review.text}&quot;</p>
                                             <p className="text-safari-night font-semibold text-sm">— {review.name}</p>
                                         </div>
                                     ))}

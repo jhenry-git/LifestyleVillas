@@ -183,7 +183,7 @@ export default function VillasPage() {
             <section className="py-16 bg-neutral-50">
                 <div className="container-premium text-center">
                     <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 text-safari-night">
-                        Can't decide? Let us help!
+                        Can&apos;t decide? Let us help!
                     </h2>
                     <p className="text-lg text-neutral-600 mb-8 max-w-2xl mx-auto">
                         Our team can recommend the perfect villa based on your group size, preferences, and travel dates.

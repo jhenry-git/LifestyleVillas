@@ -38,7 +38,7 @@ export default function NanyukiPage() {
                             </p>
                             <div className="flex items-center text-safari-olive font-medium">
                                 <MapPin className="w-5 h-5 mr-3" />
-                                <span>0° 01' North, 37° 04' East</span>
+                                <span>0° 01&apos; North, 37° 04&apos; East</span>
                             </div>
                         </motion.div>
                         <div className="h-96 bg-neutral-200 rounded-2xl relative overflow-hidden shadow-2xl">

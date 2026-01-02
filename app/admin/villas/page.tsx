@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Villa } from '@/lib/types'
 
 export default function VillasPage() {
@@ -12,11 +12,7 @@ export default function VillasPage() {
     const [statusFilter, setStatusFilter] = useState<string>('all')
     const [error, setError] = useState<string | null>(null)
 
-    useEffect(() => {
-        fetchVillas()
-    }, [statusFilter, searchTerm])
-
-    const fetchVillas = async () => {
+    const fetchVillas = useCallback(async () => {
         try {
             setLoading(true)
             setError(null)
@@ -39,7 +35,11 @@ export default function VillasPage() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [statusFilter, searchTerm])
+
+    useEffect(() => {
+        fetchVillas()
+    }, [fetchVillas])
 
     const handleDelete = async (id: string, name: string) => {
         if (!confirm(`Are you sure you want to delete "${name}"?`)) {
@@ -204,10 +204,10 @@ export default function VillasPage() {
                                             <td className="px-6 py-4">
                                                 <span
                                                     className={`px-2 py-1 text-xs font-medium rounded-full ${villa.status === 'published'
-                                                            ? 'bg-accent-kenya/10 text-accent-kenya'
-                                                            : villa.status === 'draft'
-                                                                ? 'bg-accent-maasai/10 text-accent-maasai'
-                                                                : 'bg-neutral-200 text-neutral-600'
+                                                        ? 'bg-accent-kenya/10 text-accent-kenya'
+                                                        : villa.status === 'draft'
+                                                            ? 'bg-accent-maasai/10 text-accent-maasai'
+                                                            : 'bg-neutral-200 text-neutral-600'
                                                         }`}
                                                 >
                                                     {villa.status}

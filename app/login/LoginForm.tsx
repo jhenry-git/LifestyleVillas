@@ -133,7 +133,7 @@ export default function LoginForm() {
                         </div>
                         <h2 className="text-2xl font-bold text-safari-night mb-2 text-center">Enter Verification Code</h2>
                         <p className="text-neutral-600 mb-6 text-center">
-                            We've sent an 8-digit code to<br />
+                            We&apos;ve sent an 8-digit code to<br />
                             <span className="font-medium text-safari-night">{email}</span>
                         </p>
 

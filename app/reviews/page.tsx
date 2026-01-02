@@ -170,8 +170,8 @@ export default function ReviewsPage() {
                                                 key={idx}
                                                 onClick={() => setCarouselIndex(idx)}
                                                 className={`w-2 h-2 rounded-full transition-colors ${idx === carouselIndex
-                                                        ? 'bg-safari-olive'
-                                                        : 'bg-neutral-300'
+                                                    ? 'bg-safari-olive'
+                                                    : 'bg-neutral-300'
                                                     }`}
                                                 aria-label={`Go to review ${idx + 1}`}
                                             />
@@ -213,7 +213,7 @@ export default function ReviewsPage() {
                         Have You Stayed With Us?
                     </h2>
                     <p className="text-neutral-300 mb-10 max-w-xl mx-auto">
-                        We'd love to hear about your experience. Your feedback helps us maintain our high standards of service and helps future guests make their decision.
+                        We&apos;d love to hear about your experience. Your feedback helps us maintain our high standards of service and helps future guests make their decision.
                     </p>
                     <Button
                         href={GOOGLE_MAPS_REVIEW_URL}

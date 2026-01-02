@@ -32,7 +32,7 @@ export default function AboutPage() {
                     {/* Mission */}
                     <div className="max-w-4xl mx-auto text-center mb-24">
                         <p className="font-serif text-2xl md:text-4xl leading-relaxed text-safari-night">
-                            "{aboutContent.mission}"
+                            &quot;{aboutContent.mission}&quot;
                         </p>
                     </div>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
                                 {aboutContent.story}
                             </p>
                             <p className="text-neutral-600 leading-loose text-lg">
-                                Whether you're seeking a quiet writer's retreat, a base for your mountaineering adventure, or a luxurious family holiday, Lifestyle Villas is designed to be your pr[...]
+                                Whether you&apos;re seeking a quiet writer&apos;s retreat, a base for your mountaineering adventure, or a luxurious family holiday, Lifestyle Villas is designed to be your pr[...]
                             </p>
                         </div>
                     </div>

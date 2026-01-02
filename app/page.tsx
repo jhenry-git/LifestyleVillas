@@ -36,7 +36,7 @@ export default function HomePage() {
               style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}
             >
               Wild Luxury at<br />
-              Mount Kenya's Feet
+              Mount Kenya&apos;s Feet
             </h1>
             <p className="text-lg md:text-2xl mb-14 text-neutral-200/90 max-w-2xl mx-auto leading-relaxed font-light">
               A sanctuary where contemporary refinement meets the raw beauty of the African wild.

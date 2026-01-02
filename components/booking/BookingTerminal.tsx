@@ -212,7 +212,7 @@ Looking forward to hearing from you!`
             </Button>
 
             <p className="text-xs text-neutral-500 text-center mt-4">
-                You won't be charged yet. Final confirmation via WhatsApp.
+                You won&apos;t be charged yet. Final confirmation via WhatsApp.
             </p>
         </div>
     )

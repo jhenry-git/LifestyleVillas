@@ -37,7 +37,7 @@ export default function ReviewCard({ review, index = 0 }: ReviewCardProps) {
                 </span>
             </div>
             <p className="text-neutral-600 mb-6 italic leading-loose font-serif text-lg">
-                "{review.text}"
+                &quot;{review.text}&quot;
             </p>
             <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-safari-olive/10 flex items-center justify-center text-safari-olive font-serif font-bold text-sm mr-3">
