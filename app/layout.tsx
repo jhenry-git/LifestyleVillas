@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import MobileBookingBar from '@/components/booking/MobileBookingBar'
+import StructuredData from '@/components/seo/StructuredData'
+import { generateOrganizationSchema, generateLocalBusinessSchema } from '@/lib/seo/schema'
 
 const inter = Inter({
   variable: '--font-sans',
@@ -16,12 +18,32 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lifestyle-villas.com'),
   title: {
     template: '%s | Lifestyle Villas Nanyuki',
-    default: 'Lifestyle Villas Nanyuki | Premium Destination Villas at Mount Kenya',
+    default: 'Lifestyle Villas Nanyuki | Luxury Villas at Mount Kenya',
   },
-  description: 'A refined villa experience at the foothills of Mount Kenya. Discover Nanyuki\'s finest destination villas where culture, nature, and refinement meet.',
-  keywords: ['Nanyuki villas', 'Mount Kenya accommodation', 'Laikipia villas', 'Kenya vacation rentals', 'luxury villas Nanyuki'],
+  description: 'Experience luxury at the foothills of Mount Kenya. Premium villas in Nanyuki offering refined accommodation for your Kenya safari adventure. Book your perfect getaway today.',
+  keywords: [
+    'nanyuki villas',
+    'mount kenya accommodation',
+    'laikipia villas',
+    'kenya vacation rentals',
+    'luxury villas nanyuki',
+    'lifestyle villas nanyuki',
+    'nanyuki lodging',
+    'mount kenya villas',
+    'nanyuki safari accommodation',
+    'kenya luxury villas',
+  ],
+  authors: [{ name: 'Lifestyle Villas Nanyuki' }],
+  creator: 'Lifestyle Villas Nanyuki',
+  publisher: 'Lifestyle Villas Nanyuki',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   manifest: '/favicon/manifest.json',
   icons: {
     icon: [
@@ -51,16 +73,47 @@ export const metadata: Metadata = {
     title: 'Lifestyle Villas',
   },
   openGraph: {
-    title: 'Lifestyle Villas Nanyuki | Premium Destination Villas',
-    description: 'A refined villa experience at the foothills of Mount Kenya',
     type: 'website',
     locale: 'en_KE',
+    url: 'https://lifestyle-villas.com',
     siteName: 'Lifestyle Villas Nanyuki',
+    title: 'Lifestyle Villas Nanyuki | Luxury Villas at Mount Kenya',
+    description: 'Experience luxury at the foothills of Mount Kenya. Premium villas in Nanyuki for your Kenya safari adventure.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Lifestyle Villas Nanyuki - Luxury Accommodation',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lifestyle Villas Nanyuki | Luxury Villas at Mount Kenya',
+    description: 'Experience luxury at the foothills of Mount Kenya. Premium villas in Nanyuki for your Kenya safari adventure.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   other: {
     'msapplication-TileColor': '#556B2F',
     'msapplication-TileImage': '/favicon/ms-icon-144x144.png',
     'msapplication-config': '/favicon/browserconfig.xml',
+    // Geo-targeting for Kenya
+    'geo.region': 'KE',
+    'geo.placename': 'Nanyuki',
+    'geo.position': '-0.0167;37.0667',
+    'ICBM': '-0.0167, 37.0667',
   },
 }
 
@@ -74,6 +127,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased min-h-screen flex flex-col bg-neutral-50 selection:bg-safari-olive selection:text-white`}
       >
+        <StructuredData
+          data={[
+            generateOrganizationSchema(),
+            generateLocalBusinessSchema()
+          ]}
+        />
         <Header />
         <main className="flex-1">
           {children}
@@ -84,3 +143,4 @@ export default function RootLayout({
     </html>
   )
 }
+

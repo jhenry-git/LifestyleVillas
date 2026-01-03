@@ -171,7 +171,7 @@ export default function Header() {
                                 <div className="space-y-4">
                                     <h4 className="text-[10px] font-sans uppercase tracking-[0.3em] text-safari-olive font-semibold">Contact</h4>
                                     <a href="tel:+254718490351" className="block text-2xl font-light text-safari-night">+254 718 490 351</a>
-                                    <a href="mailto:info@lifestylevillas.co.ke" className="block text-lg text-neutral-500 font-light">info@lifestylevillas.co.ke</a>
+                                    <a href="mailto:info@lifestyle-villas.com" className="block text-lg text-neutral-500 font-light">info@lifestyle-villas.com</a>
                                 </div>
 
                                 <div className="space-y-4">

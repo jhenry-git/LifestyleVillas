@@ -1,0 +1,13 @@
+# Lifestyle Villas Nanyuki - Robots.txt
+# Allow all crawlers to access the site
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes from being indexed
+Disallow: /admin/
+Disallow: /api/
+Disallow: /login
+
+# Sitemap location
+Sitemap: https://lifestyle-villas.com/sitemap.xml

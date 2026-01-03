@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 // Temporary hardcoded admin user (will be replaced with database)
 const ADMIN_USER = {
     id: '1',
-    email: 'admin@lifestylevillas.co.ke',
+    email: 'admin@lifestyle-villas.com',
     name: 'Admin User',
     // Password: "admin123" (hashed)
     passwordHash: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyWUI88K3PSi',
