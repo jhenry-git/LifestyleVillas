@@ -3,10 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import BookingTerminal from '@/components/booking/BookingTerminal'
 import VillaGallery from '@/components/ui/VillaGallery'
+import StructuredData from '@/components/seo/StructuredData'
 
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
+import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/schema'
+import { SITE_CONFIG } from '@/lib/seo/constants'
 
 const getVillaBySlug = async (slug: string) => {
     const cookieStore = cookies()
@@ -61,14 +64,49 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         }
     }
 
+    // Get the villa image URL - use featured_image or first from images array
+    const villaImage = villa.featured_image ||
+        (Array.isArray(villa.images) && villa.images.length > 0
+            ? (typeof villa.images[0] === 'string'
+                ? villa.images[0]
+                : villa.images[0])
+            : '/placeholder-villa.jpg')
+
+    const villaUrl = `${SITE_CONFIG.url}/villas/${villa.slug}`
+
     return {
-        title: `${villa.name} - ${villa.houseNumber} | Lifestyle Villas Nanyuki`,
-        description: villa.description,
+        title: `${villa.name} | Luxury Villa in Nanyuki`,
+        description: `${villa.description} ${villa.bedrooms} bedrooms, sleeps ${villa.capacity}. From KES ${villa.basePrice.toLocaleString()}/night. Book your Mount Kenya villa experience.`,
+        keywords: [
+            villa.name,
+            `${villa.bedrooms} bedroom villa nanyuki`,
+            'nanyuki luxury villa',
+            'mount kenya accommodation',
+            'nanyuki vacation rental',
+            `villa for ${villa.capacity} guests nanyuki`,
+        ],
         openGraph: {
             title: `${villa.name} | Lifestyle Villas Nanyuki`,
             description: villa.description,
-            images: ['/images/villas/villa-01.jpg'], // Would use actual villa images
-        }
+            url: villaUrl,
+            images: [
+                {
+                    url: villaImage.startsWith('http') ? villaImage : `${SITE_CONFIG.url}${villaImage}`,
+                    width: 1200,
+                    height: 800,
+                    alt: `${villa.name} - Luxury villa in Nanyuki`,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${villa.name} | Lifestyle Villas Nanyuki`,
+            description: villa.description,
+            images: [villaImage.startsWith('http') ? villaImage : `${SITE_CONFIG.url}${villaImage}`],
+        },
+        alternates: {
+            canonical: villaUrl,
+        },
     }
 }
 
@@ -90,8 +128,37 @@ export default async function VillaPage({ params }: { params: Promise<{ slug: st
         )
     }
 
+    // Generate structured data schemas
+    const villaImage = villa.featured_image ||
+        (Array.isArray(villa.images) && villa.images.length > 0
+            ? (typeof villa.images[0] === 'string'
+                ? villa.images[0]
+                : villa.images[0])
+            : '/placeholder-villa.jpg')
+
+    const productSchema = generateProductSchema({
+        id: villa.id,
+        name: villa.name,
+        slug: villa.slug,
+        description: villa.description,
+        price: villa.basePrice,
+        capacity: villa.capacity,
+        bedrooms: villa.bedrooms,
+        bathrooms: villa.bathrooms,
+        image: villaImage,
+        // Add rating and reviewCount when available from database
+    })
+
+    const breadcrumbSchema = generateBreadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Villas', url: '/villas' },
+        { name: villa.name, url: `/villas/${villa.slug}` },
+    ])
+
     return (
         <div className="bg-background">
+            <StructuredData data={[productSchema, breadcrumbSchema]} />
+
             {/* Breadcrumb */}
             <div className="bg-neutral-50 dark:bg-neutral-900 py-4 border-b border-neutral-200 dark:border-neutral-800">
                 <div className="container-premium">

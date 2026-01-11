@@ -78,8 +78,8 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:info@lifestylevillas.co.ke" className="hover:text-neutral-50 transition-colors">
-                                    info@lifestylevillas.co.ke
+                                <a href="mailto:info@lifestyle-villas.com" className="hover:text-neutral-50 transition-colors">
+                                    info@lifestyle-villas.com
                                 </a>
                             </li>
                         </ul>

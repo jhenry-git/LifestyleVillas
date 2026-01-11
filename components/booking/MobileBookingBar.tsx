@@ -12,7 +12,7 @@ interface MobileBookingBarProps {
 import { LUXURY_EASE } from '@/lib/constants'
 
 export default function MobileBookingBar({
-    price = 12000,
+    price = 20000,
     offer,
     bookUrl
 }: MobileBookingBarProps) {

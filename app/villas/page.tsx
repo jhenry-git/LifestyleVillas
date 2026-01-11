@@ -6,10 +6,30 @@ import { cookies } from 'next/headers'
 import { Users, Wifi, Bed, MapPin, MessageCircle } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import VillaFilters from './VillaFilters'
+import StructuredData from '@/components/seo/StructuredData'
+import { generateItemListSchema } from '@/lib/seo/schema'
+import { PRIMARY_KEYWORDS, SITE_CONFIG } from '@/lib/seo/constants'
 
 export const metadata: Metadata = {
-    title: 'Our Villas | Lifestyle Villas Nanyuki',
-    description: 'Explore our collection of premium villas in Nanyuki. Each villa offers stunning views of Mount Kenya and world-class amenities.',
+    title: 'Luxury Villas in Nanyuki | Premium Vacation Rentals',
+    description: 'Browse our collection of premium luxury villas in Nanyuki. Each villa offers stunning Mount Kenya views, world-class amenities, and authentic Kenyan hospitality. Find your perfect villa today.',
+    keywords: [...PRIMARY_KEYWORDS.villas],
+    openGraph: {
+        title: 'Our Villas | Lifestyle Villas Nanyuki',
+        description: 'Explore premium luxury villas at the foothills of Mount Kenya in Nanyuki.',
+        url: `${SITE_CONFIG.url}/villas`,
+        images: [
+            {
+                url: '/og-image.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Lifestyle Villas Collection - Nanyuki',
+            },
+        ],
+    },
+    alternates: {
+        canonical: `${SITE_CONFIG.url}/villas`,
+    },
 }
 
 // --- Data Fetching Logic ---
@@ -78,8 +98,19 @@ export default async function VillasPage({
 }) {
     const villas = await getVillas(searchParams)
 
+    // Generate ItemList schema for villas
+    const villaListSchema = villas.length > 0 ? generateItemListSchema(
+        villas.map(v => ({
+            name: v.name,
+            url: `/villas/${v.slug}`,
+            image: v.image,
+        })),
+        'Luxury Villas in Nanyuki'
+    ) : null
+
     return (
         <main className="bg-neutral-50 min-h-screen">
+            {villaListSchema && <StructuredData data={villaListSchema} />}
 
             {/* Header: Immersive & Clean */}
             <section className="relative bg-safari-night text-white py-24 overflow-hidden">

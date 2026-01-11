@@ -45,7 +45,7 @@ export default function NanyukiPage() {
                         <div className="h-96 bg-neutral-200 rounded-2xl relative overflow-hidden shadow-2xl">
                             <Image
                                 src="/nanyuki-landscape.jpg"
-                                alt="Nanyuki Scenic Landscape"
+                                alt="Scenic landscape view of Nanyuki town at the foothills of Mount Kenya, showing the equator town and Laikipia plateau"
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -57,7 +57,7 @@ export default function NanyukiPage() {
                         <div className="h-96 bg-neutral-200 rounded-2xl relative overflow-hidden shadow-2xl order-2 lg:order-1">
                             <Image
                                 src="/mount-kenya-view.jpg"
-                                alt="Mount Kenya View"
+                                alt="Panoramic view of snow-capped Mount Kenya from Nanyuki, Africa's second highest mountain and UNESCO World Heritage Site"
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, 50vw"

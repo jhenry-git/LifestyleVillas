@@ -43,7 +43,7 @@ export default function AboutPage() {
                             <div className="aspect-[4/5] bg-neutral-200 rounded-lg overflow-hidden relative z-10">
                                 <Image
                                     src="/team-photo.jpg"
-                                    alt="Lifestyle Villas Team"
+                                    alt="Lifestyle Villas Nanyuki team providing hospitality and luxury villa services at Mount Kenya"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"

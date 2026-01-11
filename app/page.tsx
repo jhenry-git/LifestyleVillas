@@ -1,6 +1,32 @@
+import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import HomeClient from '@/components/home/HomeClient'
+import StructuredData from '@/components/seo/StructuredData'
+import { generateItemListSchema } from '@/lib/seo/schema'
+import { PRIMARY_KEYWORDS, SITE_CONFIG } from '@/lib/seo/constants'
+
+export const metadata: Metadata = {
+  title: 'Luxury Villas in Nanyuki | Mount Kenya Accommodation',
+  description: 'Discover premium luxury villas at the foothills of Mount Kenya in Nanyuki. Experience refined safari accommodation with stunning mountain views, modern amenities, and authentic Kenyan hospitality.',
+  keywords: [...PRIMARY_KEYWORDS.homepage],
+  openGraph: {
+    title: 'Lifestyle Villas Nanyuki | Luxury Villas at Mount Kenya',
+    description: 'Discover premium luxury villas at the foothills of Mount Kenya in Nanyuki.',
+    url: SITE_CONFIG.url,
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Lifestyle Villas Nanyuki - Luxury Accommodation at Mount Kenya',
+      },
+    ],
+  },
+  alternates: {
+    canonical: SITE_CONFIG.url,
+  },
+}
 
 async function getFeaturedVillas() {
   const cookieStore = cookies()
@@ -55,5 +81,21 @@ function mapVillas(villas: any[]) {
 
 export default async function HomePage() {
   const villas = await getFeaturedVillas()
-  return <HomeClient villas={villas} />
+
+  // Generate ItemList schema for featured villas
+  const villaListSchema = villas.length > 0 ? generateItemListSchema(
+    villas.map(v => ({
+      name: v.name,
+      url: `/villas/${v.slug}`,
+      image: v.image,
+    })),
+    'Featured Luxury Villas in Nanyuki'
+  ) : null
+
+  return (
+    <>
+      {villaListSchema && <StructuredData data={villaListSchema} />}
+      <HomeClient villas={villas} />
+    </>
+  )
 }

@@ -43,7 +43,7 @@ export default function ExperiencesPage() {
                                 <div className="h-64 bg-neutral-200 relative overflow-hidden">
                                     <Image
                                         src={`/images/experiences/${exp.image.split('/').pop()}`}
-                                        alt={exp.title}
+                                        alt={`${exp.title} - ${exp.category} experience near Nanyuki and Mount Kenya`}
                                         fill
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                         sizes="(max-width: 768px) 100vw, 50vw"
