@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
     const currentYear = new Date().getFullYear()
@@ -88,9 +89,30 @@ export default function Footer() {
 
                 <div className="border-t border-neutral-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-neutral-400">
                     <p>&copy; {currentYear} Lifestyle Villas Nanyuki. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-4 md:mt-0">
+                    <div className="flex items-center space-x-6 mt-4 md:mt-0">
                         <Link href="/privacy" className="hover:text-neutral-50 transition-colors">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-neutral-50 transition-colors">Terms of Service</Link>
+                        <span className="text-neutral-500">•</span>
+                        <span className="flex items-center gap-1.5 text-neutral-500">
+                            Powered by{' '}
+                            <a
+                                href="https://www.glidexoutsourcing.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 group"
+                            >
+                                <Image
+                                    src="/glidex_logo.png"
+                                    alt="GlideX"
+                                    width={20}
+                                    height={20}
+                                    className="opacity-80 group-hover:opacity-100 transition-opacity"
+                                />
+                                <span className="font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:from-blue-400 group-hover:to-cyan-400 transition-all duration-300">
+                                    GlideX™
+                                </span>
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
