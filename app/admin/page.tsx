@@ -24,6 +24,9 @@ interface Villa {
     name: string
 }
 
+// Create client once outside component to prevent re-renders
+const supabase = createClient()
+
 export default function AdminDashboard() {
     const [stats, setStats] = useState<Stats>({
         totalVillas: 0,
@@ -34,25 +37,33 @@ export default function AdminDashboard() {
     const [recentBookings, setRecentBookings] = useState<Booking[]>([])
     const [villas, setVillas] = useState<Record<string, Villa>>({})
     const [loading, setLoading] = useState(true)
-
-    const supabase = createClient()
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         async function fetchDashboardData() {
             try {
                 setLoading(true)
+                setError(null)
 
                 // Fetch total villas
-                const { count: villasCount } = await supabase
+                const { count: villasCount, error: villasError } = await supabase
                     .from('villas')
                     .select('*', { count: 'exact', head: true })
                     .eq('status', 'published')
 
+                if (villasError) {
+                    console.error('Error fetching villas:', villasError)
+                }
+
                 // Fetch active bookings (confirmed or pending)
-                const { count: bookingsCount } = await supabase
+                const { count: bookingsCount, error: bookingsError } = await supabase
                     .from('bookings')
                     .select('*', { count: 'exact', head: true })
                     .in('status', ['confirmed', 'pending'])
+
+                if (bookingsError) {
+                    console.error('Error fetching bookings:', bookingsError)
+                }
 
                 // Fetch this month's revenue
                 const firstDayOfMonth = new Date()
@@ -107,13 +118,14 @@ export default function AdminDashboard() {
                 }
             } catch (error) {
                 console.error('Error fetching dashboard data:', error)
+                setError('Failed to load dashboard data. Please refresh the page.')
             } finally {
                 setLoading(false)
             }
         }
 
         fetchDashboardData()
-    }, [supabase])
+    }, []) // Empty dependency array - runs once on mount
 
     const statsDisplay = [
         { name: 'Total Villas', value: loading ? '...' : stats.totalVillas.toString(), change: '', icon: '🏠', color: 'bg-safari-olive' },

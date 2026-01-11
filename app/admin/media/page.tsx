@@ -6,14 +6,15 @@ import Image from 'next/image'
 import { Folder, Image as ImageIcon, Trash2, Upload, ExternalLink } from 'lucide-react'
 import type { FileObject } from '@supabase/storage-js'
 
+// Create client once outside component to prevent re-renders
+const supabase = createClient()
+
 export default function MediaLibraryPage() {
     const [files, setFiles] = useState<FileObject[]>([])
     const [loading, setLoading] = useState(true)
     const [uploading, setUploading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [selectedBucket, setSelectedBucket] = useState('villa-images')
-
-    const supabase = createClient()
 
     const fetchFiles = useCallback(async () => {
         try {
@@ -37,7 +38,7 @@ export default function MediaLibraryPage() {
         } finally {
             setLoading(false)
         }
-    }, [selectedBucket, supabase])
+    }, [selectedBucket]) // Removed supabase from dependencies
 
     useEffect(() => {
         fetchFiles()

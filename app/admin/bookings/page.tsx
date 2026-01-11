@@ -25,6 +25,9 @@ interface Villa {
     name: string
 }
 
+// Create client once outside component to prevent re-renders
+const supabase = createClient()
+
 export default function BookingsPage() {
     const [bookings, setBookings] = useState<Booking[]>([])
     const [villas, setVillas] = useState<Record<string, Villa>>({})
@@ -32,8 +35,6 @@ export default function BookingsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('all')
     const [searchTerm, setSearchTerm] = useState('')
     const [error, setError] = useState<string | null>(null)
-
-    const supabase = createClient()
 
     const fetchBookings = useCallback(async () => {
         try {
@@ -81,7 +82,7 @@ export default function BookingsPage() {
         } finally {
             setLoading(false)
         }
-    }, [statusFilter, searchTerm, supabase])
+    }, [statusFilter, searchTerm]) // Removed supabase from dependencies
 
     useEffect(() => {
         fetchBookings()

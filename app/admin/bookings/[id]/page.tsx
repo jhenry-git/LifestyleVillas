@@ -31,6 +31,9 @@ interface Villa {
     price_per_night: number
 }
 
+// Create client once outside component to prevent re-renders
+const supabase = createClient()
+
 export default function BookingDetailPage() {
     const params = useParams()
     const router = useRouter()
@@ -38,8 +41,6 @@ export default function BookingDetailPage() {
     const [villa, setVilla] = useState<Villa | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-
-    const supabase = createClient()
 
     useEffect(() => {
         async function fetchBooking() {
@@ -74,7 +75,7 @@ export default function BookingDetailPage() {
         if (params.id) {
             fetchBooking()
         }
-    }, [params.id, supabase])
+    }, [params.id]) // Removed supabase from dependencies
 
     const handleStatusChange = async (newStatus: string) => {
         if (!booking) return
@@ -301,8 +302,8 @@ export default function BookingDetailPage() {
                             <button
                                 onClick={() => handleStatusChange('pending')}
                                 className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${booking.status === 'pending'
-                                        ? 'bg-accent-maasai text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    ? 'bg-accent-maasai text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Pending
@@ -310,8 +311,8 @@ export default function BookingDetailPage() {
                             <button
                                 onClick={() => handleStatusChange('confirmed')}
                                 className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${booking.status === 'confirmed'
-                                        ? 'bg-accent-kenya text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    ? 'bg-accent-kenya text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Confirmed
@@ -319,8 +320,8 @@ export default function BookingDetailPage() {
                             <button
                                 onClick={() => handleStatusChange('completed')}
                                 className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${booking.status === 'completed'
-                                        ? 'bg-safari-olive text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    ? 'bg-safari-olive text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Completed
@@ -328,8 +329,8 @@ export default function BookingDetailPage() {
                             <button
                                 onClick={() => handleStatusChange('cancelled')}
                                 className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${booking.status === 'cancelled'
-                                        ? 'bg-neutral-400 text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    ? 'bg-neutral-400 text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Cancelled

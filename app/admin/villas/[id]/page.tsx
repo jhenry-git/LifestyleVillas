@@ -26,6 +26,9 @@ interface VillaFormData {
 
 const SECTIONS = ['Living Room', 'Bedrooms', 'Kitchen', 'Bathrooms', 'Verandah', 'Exterior']
 
+// Create client once outside component to prevent re-renders
+const supabase = createClient()
+
 export default function EditVillaPage() {
     const params = useParams()
     const router = useRouter()
@@ -34,8 +37,6 @@ export default function EditVillaPage() {
     const [error, setError] = useState<string | null>(null)
     const [featuredImage, setFeaturedImage] = useState<string | null>(null)
     const [sectionImages, setSectionImages] = useState<Record<string, string[]>>({})
-
-    const supabase = createClient()
 
     const { register, handleSubmit, formState: { errors }, watch, setValue, reset } = useForm<VillaFormData>({
         defaultValues: {
@@ -105,7 +106,7 @@ export default function EditVillaPage() {
         if (params.id) {
             fetchVilla()
         }
-    }, [params.id, supabase, reset])
+    }, [params.id, reset]) // Removed supabase from dependencies
 
     const handleSectionImagesChange = (section: string, newImages: string[]) => {
         setSectionImages(prev => ({
